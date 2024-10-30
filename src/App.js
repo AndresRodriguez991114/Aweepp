@@ -24,7 +24,7 @@ function App() {
 </BrowserRouter>,
     <Router>
       <Routes>
-        <Route path="/Aweepp.co" element={<LoginPage />} />
+        <Route path="/Login" element={<LoginPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/registro-exitoso" element={<RegistroExitoso />} /> 
         
