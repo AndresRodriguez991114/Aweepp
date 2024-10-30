@@ -15,14 +15,12 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import Layout from "./components/Layout";
-import Aviso from "./components/Aviso"; // Importa el componente Aviso
 
 function App() {
   return (
     <Router>
-      <Aviso /> {/* Añade el aviso aquí para que se muestre en todas las rutas */}
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/Login" element={<LoginPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/registro-exitoso" element={<RegistroExitoso />} /> 
         <Route path="/principal" element={<Layout><InicioForm /></Layout>} />
