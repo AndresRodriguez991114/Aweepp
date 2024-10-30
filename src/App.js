@@ -19,9 +19,6 @@ import Layout from "./components/Layout";
 
 function App() {
   return (
-    <BrowserRouter basename="">
-  <App />
-</BrowserRouter>,
     <Router>
       <Routes>
         <Route path="/Login" element={<LoginPage />} />
