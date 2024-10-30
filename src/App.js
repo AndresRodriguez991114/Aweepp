@@ -15,11 +15,13 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import Layout from "./components/Layout";
+import Bienvenida from "./components/Bienvenida";
 
 function App() {
   return (
     <Router>
       <Routes>
+      <Route path="/" element={<Bienvenida />} />
         <Route path="/Login" element={<LoginPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/registro-exitoso" element={<RegistroExitoso />} /> 
