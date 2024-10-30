@@ -19,7 +19,7 @@ import Layout from "./components/Layout";
 
 function App() {
   return (
-    <BrowserRouter basename="/Aweepp.co">
+    <BrowserRouter basename="">
   <App />
 </BrowserRouter>,
     <Router>
