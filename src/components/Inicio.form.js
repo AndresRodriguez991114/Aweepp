@@ -14,7 +14,7 @@ const InicioForm = () => {
   const [cuenta, setCuenta] = useState({
     nombre: 'Efectivo',
     tipo: 'Efectivo',
-    balance: 20000,
+    balance: 10000,
     color: '#d4af37'
   });
 
