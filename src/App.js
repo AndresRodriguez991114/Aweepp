@@ -22,7 +22,7 @@ function App() {
     <Router>
       <Aviso /> {/* Añade el aviso aquí para que se muestre en todas las rutas */}
       <Routes>
-        <Route path="/Login" element={<LoginPage />} />
+        <Route path="/" element={<LoginPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/registro-exitoso" element={<RegistroExitoso />} /> 
         <Route path="/principal" element={<Layout><InicioForm /></Layout>} />
