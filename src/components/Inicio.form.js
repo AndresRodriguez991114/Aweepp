@@ -19,7 +19,7 @@ const InicioForm = () => {
   });
 
   const saldoData = {
-    labels: ['Mes 1', 'Mes 2', 'Mes 3', 'Mes 4', 'Mes 5'],
+    labels: ['Mes 2', 'Mes 2', 'Mes 3', 'Mes 4', 'Mes 5'],
     datasets: [
       {
         label: 'Saldo',
