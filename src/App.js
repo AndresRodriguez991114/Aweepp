@@ -9,6 +9,7 @@ import Ahorros from "./components/Ahorros";
 import Gastos from "./components/Gastos";
 import Aportes from "./components/Aportes";
 import { BrowserRouter as Router, Route, Routes, Navigate  } from "react-router-dom";
+import { BrowserRouter } from 'react-router-dom';
 import CuentaDetalle from "./components/CuentaDetalle";
 import GastoDetalle from "./components/GastoDetalle";
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
@@ -18,6 +19,9 @@ import Layout from "./components/Layout";
 
 function App() {
   return (
+    <BrowserRouter basename="">
+  <App />
+</BrowserRouter>,
     <Router>
       <Routes>
         <Route path="/Login" element={<LoginPage />} />
