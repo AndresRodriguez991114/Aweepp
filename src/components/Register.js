@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import './Register.css';
 import imagenLogin from '../assets/imagenLogin.png';
 import PoliticaTratamiento from './PoliticaTratamiento';
@@ -13,25 +12,19 @@ const Register = () => {
     confirmPassword: '',
   });
   const [politicaAceptada, setPoliticaAceptada] = useState(false);
-  const [mostrarTooltip, setMostrarTooltip] = useState(false);
+  const [mostrarTooltip, setMostrarTooltip] = useState(false); // Estado para mostrar el tooltip
   const [mostrarModal, setMostrarModal] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(""); // Nuevo estado para el mensaje de error
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
-
-    // Limpiar el mensaje de error al cambiar el campo de confirmación de contraseña
-    if (name === 'confirmPassword' && formData.password === value) {
-      setErrorMessage("");
-    }
   };
 
   const handleCheckboxChange = (e) => {
     setPoliticaAceptada(e.target.checked);
     if (e.target.checked) {
-      setMostrarTooltip(false);
+      setMostrarTooltip(false); // Oculta el tooltip si el checkbox es seleccionado
     }
   };
 
@@ -44,69 +37,27 @@ const Register = () => {
     setMostrarModal(false);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const { name, email, password, confirmPassword } = formData;
 
-    // Verificar si hay campos vacíos
     if (!name || !email || !password || !confirmPassword) {
-      setErrorMessage("Por favor, completa todos los campos."); // Cambiar alert por mensaje en línea
+      alert("Por favor, completa todos los campos.");
       return;
     }
 
-    // Verificar si las contraseñas coinciden
     if (password !== confirmPassword) {
-      setErrorMessage("Las contraseñas no coinciden."); // Cambiar alert por mensaje en línea
+      alert("Las contraseñas no coinciden.");
       return;
     }
 
-    // Verificar si la política ha sido aceptada
     if (!politicaAceptada) {
-      setMostrarTooltip(true);
+      setMostrarTooltip(true); // Muestra el tooltip si el checkbox no está seleccionado
       return;
     }
 
-    try {
-      // Solicitud POST a la API
-      const response = await axios.post('https://awepp.somee.com/api/User', {
-        id: null,
-        name: name,
-        email: email,
-        passaword: password, // Asegúrate de que el nombre del campo coincida con el esperado en la API
-        phoneNumber: '',
-        userName: name, // O utiliza otro campo si tienes un nombre de usuario diferente
-        date: new Date().toISOString(),
-        modified: new Date().toISOString(),
-        modifiedBy: name,
-        usertype: {
-          id: 1, // Ajusta esto según el tipo de usuario necesario
-          name: 'usuario', // Asigna el tipo de usuario
-          isDeleted: false
-        },
-        typeAcces: {
-          id: 1, // Ajusta esto según el nivel de acceso necesario
-          typeacces: 'general', // Nivel de acceso
-          isDeleted: false
-        },
-        typeAccesUser: {
-          id: 1,
-          typeAcces: {
-            id: 1,
-            typeacces: 'general',
-            isDeleted: false
-          },
-          isDeleted: false
-        },
-        isDeleted: false
-      });
-
-      console.log('Respuesta de la API:', response.data);
-      alert("Registro exitoso");
-      navigate('/registro-exitoso');
-    } catch (error) {
-      console.error("Error al registrar el usuario:", error);
-      alert("Hubo un problema al registrar el usuario. Inténtalo de nuevo.");
-    }
+    console.log('Formulario enviado:', formData);
+    navigate('/registro-exitoso');
   };
 
   return (
@@ -154,7 +105,6 @@ const Register = () => {
                 onChange={handleChange}
                 required
               />
-              {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>} {/* Mostrar mensaje de error */}
             </div>
             <div className="form-group-checkbox" style={{ position: 'relative' }}>
               <input
@@ -184,11 +134,12 @@ const Register = () => {
         <p>Ingresa informes, crea presupuestos, sincroniza con tus bancos...</p>
       </div>
 
+      {/* Modal */}
       {mostrarModal && (
         <div className="modal-overlay">
           <div className="modal-content">
             <h2>Política de Tratamiento de Datos</h2>
-            <PoliticaTratamiento />
+            <PoliticaTratamiento /> {/* Muestra el contenido de la política */}
             <button onClick={handleCloseModal} className="btn-close">Aceptar</button>
           </div>
         </div>
