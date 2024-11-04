@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { InputSwitch } from "primereact/inputswitch";
+import api from '../api';
 import { useForm } from "react-hook-form";
 
 // Importa los estilos de PrimeReact
@@ -45,14 +46,13 @@ const LoginForm = () => {
     reset();
   };
 
-  // Manejador para el cambio del InputSwitch
   const handleRememberMeChange = (e) => {
     setRememberMe(e.value);
     setValue("isChecked", e.value);
   };
 
   return (
-    <div className="register-container"> {/* Usar el mismo estilo del registro */}
+    <div className="register-container"> 
       <h2>Iniciar Sesión</h2>
       <form autoComplete="off" onSubmit={handleSubmit(loginSubmit)}>
         <div className="form-group">

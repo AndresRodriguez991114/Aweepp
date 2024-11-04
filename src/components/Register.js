@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api';
 import imagenLogin from '../assets/imagenLogin.png';
 import PoliticaTratamiento from './PoliticaTratamiento';
+import { Toast } from "primereact/toast";
 import './Register.css';
 
 const Register = () => {
@@ -15,11 +16,18 @@ const Register = () => {
   const [politicaAceptada, setPoliticaAceptada] = useState(false);
   const [mostrarTooltip, setMostrarTooltip] = useState(false);
   const [mostrarModal, setMostrarModal] = useState(false);
+  const [passwordError, setPasswordError] = useState('');
   const navigate = useNavigate();
+  
+  const toast = useRef(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+
+    if (name === "confirmPassword") {
+      setPasswordError('');
+    }
   };
 
   const handleCheckboxChange = (e) => {
@@ -43,12 +51,17 @@ const Register = () => {
     const { name, email, password, confirmPassword } = formData;
 
     if (!name || !email || !password || !confirmPassword) {
-      alert("Por favor, completa todos los campos.");
+      toast.current.show({
+        severity: 'warn',
+        summary: 'Campos incompletos',
+        detail: 'Por favor, completa todos los campos.',
+        life: 3000
+      });
       return;
     }
 
     if (password !== confirmPassword) {
-      alert("Las contraseñas no coinciden.");
+      setPasswordError('Las contraseñas no coinciden.');
       return;
     }
 
@@ -58,31 +71,29 @@ const Register = () => {
     }
 
     try {
-      // Solicitud POST a la API
-      const response = await api.post('/User', 
-        {
-          "id": 0,
-          "name": name,
-          "email": email,
-          "passaword": password,
-          "phoneNumber": '',
-          "userName": name,
-          "date": new Date().toISOString(),
-         "modified": new Date().toISOString(),
-          "modifiedBy": name,
-          "usertype": {
+      const response = await api.post('/User', {
+        "id": 0,
+        "name": name,
+        "email": email,
+        "passaword": password,
+        "phoneNumber": '',
+        "userName": name,
+        "date": new Date().toISOString(),
+        "modified": new Date().toISOString(),
+        "modifiedBy": name,
+        "usertype": {
           "id": 0,
           "name": name,
           "isDeleted": false
-          },
-          "typeAcces": {
+        },
+        "typeAcces": {
           "id": 0,
           "typeacces": "string",
           "isDeleted": false
-          },
-            "typeAccesUser": {
-            "id": 0,
-            "typeAcces": {
+        },
+        "typeAccesUser": {
+          "id": 0,
+          "typeAcces": {
             "id": 0,
             "typeacces": "string",
             "isDeleted": false
@@ -90,19 +101,24 @@ const Register = () => {
           "isDeleted": false
         },
         "isDeleted": false
-      }
-    );
+      });
 
       console.log('Respuesta de la API:', response.data);
       navigate('/registro-exitoso');
     } catch (error) {
       console.error("Error al registrar el usuario:", error);
-      alert("Hubo un problema al registrar el usuario. Inténtalo de nuevo.");
+      toast.current.show({
+        severity: 'error',
+        summary: 'Error en el registro',
+        detail: 'Hubo un problema al registrar el usuario. Inténtalo de nuevo.',
+        life: 3000
+      });
     }
   };
 
   return (
     <div className="register-page-container">
+      <Toast ref={toast} /> 
       <div className="register-section">
         <div className="register-container">
           <h2>Registro</h2>
@@ -138,7 +154,7 @@ const Register = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="confirmPassword">Confirmar Contraseña:</label>
+              <label htmlFor="confirmPassword">Vuelve a escribir la contraseña:</label>
               <input
                 type="password"
                 name="confirmPassword"
@@ -146,6 +162,7 @@ const Register = () => {
                 onChange={handleChange}
                 required
               />
+              {passwordError && <small className="password-error">{passwordError}</small>}
             </div>
             <div className="form-group-checkbox" style={{ position: 'relative' }}>
               <input
