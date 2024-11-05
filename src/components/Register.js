@@ -82,12 +82,12 @@ const Register = () => {
         "modified": new Date().toISOString(),
         "modifiedBy": name,
         "usertype": {
-          "id": 0,
+          "id": 2,
           "name": name,
           "isDeleted": false
         },
         "typeAcces": {
-          "id": 0,
+          "id": 2,
           "typeacces": "string",
           "isDeleted": false
         },
