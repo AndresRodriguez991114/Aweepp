@@ -75,7 +75,7 @@ const Register = () => {
         "id": 0,
         "name": name,
         "email": email,
-        "passaword": password,
+        "password": password,
         "phoneNumber": '',
         "userName": name,
         "date": new Date().toISOString(),
