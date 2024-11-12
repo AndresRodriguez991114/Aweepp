@@ -21,6 +21,30 @@ const Register = () => {
   
   const toast = useRef(null);
 
+    // Función para validar la contraseña
+    const validatePassword = (password) => {
+      const minLength = 8;
+      const hasUpperCase = /[A-Z]/.test(password);
+      const hasLowerCase = /[a-z]/.test(password);
+      const hasNumber = /[0-9]/.test(password);
+      const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  
+      if (
+        password.length >= minLength &&
+        hasUpperCase &&
+        hasLowerCase &&
+        hasNumber &&
+        hasSpecialChar
+      ) {
+        return true;
+      } else {
+        setPasswordError(
+          'La contraseña debe tener al menos ocho caracteres, una mayúscula, una minúscula, un número y un carácter especial.'
+        );
+        return false;
+      }
+    };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -65,6 +89,10 @@ const Register = () => {
       return;
     }
 
+    if (!validatePassword(password)) {
+      return;
+    }
+
     if (!politicaAceptada) {
       setMostrarTooltip(true);
       return;
@@ -82,13 +110,13 @@ const Register = () => {
         "modified": new Date().toISOString(),
         "modifiedBy": name,
         "usertype": {
-          "id": 2,
-          "name": name,
+          "id": 0,
+          "name": "Cliente",
           "isDeleted": false
         },
         "typeAcces": {
-          "id": 2,
-          "typeacces": "string",
+          "id": 0,
+          "typeacces": "Cliente",
           "isDeleted": false
         },
         "typeAccesUser": {
