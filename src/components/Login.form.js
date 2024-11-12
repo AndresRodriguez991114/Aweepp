@@ -42,25 +42,28 @@ const LoginForm = () => {
       localStorage.removeItem("isChecked");
     }
 
-    // Enviar las credenciales a la API de autenticación
     try {
-      const response = await api.post('/User/Login', 
-      {
-        email, 
-        password 
-      }
-    );
-  
+      // Enviar las credenciales a la API de autenticación
+      const response = await api.post('/User/Login', { email, password });
+
       // Verificar respuesta y redirigir en caso de éxito
       if (response.status === 200) {
-        const data = response.data;;
-        
-        // Opcional: guarda el token en localStorage si es necesario
-        localStorage.setItem('token', data.token);
+        const loginData = response.data;
 
-        // Redirige a la página principal
-        navigate("/principal");
-        reset();
+        // Realizar una solicitud adicional para obtener los detalles del usuario
+        const userResponse = await api.get(`/User/${loginData.userId}`);
+        if (userResponse.status === 200) {
+          const userData = userResponse.data;
+
+          // Guardar los detalles completos del usuario en localStorage
+          localStorage.setItem('user', JSON.stringify(userData));
+          console.log('Detalles del usuario guardados:', userData);
+
+          navigate("/principal");
+          reset();
+        } else {
+          setErrorMessage('No se pudieron obtener los detalles del usuario.');
+        }
       } else {
         const errorData = await response.json();
         setErrorMessage(errorData.message || 'Error de inicio de sesión. Verifica tus credenciales.');
