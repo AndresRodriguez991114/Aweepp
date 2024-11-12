@@ -62,7 +62,6 @@ const LoginForm = () => {
         navigate("/principal");
         reset();
       } else {
-        // Maneja el error si el inicio de sesión falla
         const errorData = await response.json();
         setErrorMessage(errorData.message || 'Error de inicio de sesión. Verifica tus credenciales.');
       }
